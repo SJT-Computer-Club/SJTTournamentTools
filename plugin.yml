@@ -1,0 +1,10 @@
+name: SJTTournamentTools
+main: Psycle\SJTTournamentTools\SJTTournamentTools
+version: 0.0.1
+api: 1.0.0
+
+commands:
+    samplecommand:
+        description: "Sample Command"
+        usage: "/samplecommand"
+
