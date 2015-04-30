@@ -7,7 +7,7 @@ namespace Psycle\SJTTournamentTools\Game;
  *
  * @author austin
  */
-class Game {
+abstract class Game {
     /**
      * The message shown to the user when the game starts
      * @var type string
@@ -29,4 +29,14 @@ class Game {
         $this->message = $config['message'];
         $this->duration = $config['duration'];
     }
+
+    public function start() {
+
+    }
+
+    public function stop() {
+
+    }
+
+    abstract function getStatus();
 }

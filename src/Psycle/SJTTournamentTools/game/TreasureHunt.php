@@ -16,4 +16,16 @@ class TreasureHunt extends Game {
     public function __construct($config) {
         parent::__construct($config);
     }
+
+    public function start() {
+        parent::start();
+    }
+
+    public function stop() {
+        parent::stop();
+    }
+
+    public function getStatus() {
+
+    }
 }

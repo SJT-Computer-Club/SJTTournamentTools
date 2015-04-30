@@ -8,7 +8,7 @@ use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 
-use Psycle\SJTTournamentTools\Game\Parkour;
+use Psycle\SJTTournamentTools\GameManager;
 use Psycle\SJTTournamentTools\LocationManager;
 
 /**
@@ -29,6 +29,12 @@ class SJTTournamentTools extends PluginBase implements Listener {
      */
     private $locationManager;
 
+    /**
+     * Instance of Game manager to handle games
+     * @var type Psycle\SJTTournamentTools\GameManager
+     */
+    private $gameManager;
+
 
     /**
      * Called when the plugin is enabled
@@ -42,6 +48,7 @@ class SJTTournamentTools extends PluginBase implements Listener {
         $this->initDataFolder();
 
         $this->locationManager = new LocationManager($this->getConfig()->get('locations'));
+        $this->gameManager = new GameManager($this->getConfig()->get('games'));
     }
 
     /**
