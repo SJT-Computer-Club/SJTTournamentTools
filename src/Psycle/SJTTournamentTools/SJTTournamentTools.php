@@ -8,6 +8,8 @@ use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 
+use Psycle\SJTTournamentTools\Game\Parkour;
+
 /**
  * Main plugin class
  */
@@ -62,7 +64,8 @@ class SJTTournamentTools extends PluginBase implements Listener {
         $config = $this->getConfig();
 
         $level = Server::getInstance()->getDefaultLevel();
-        $sampleSetting = $config->get("samplesetting");
+
+        //$parkour = new Parkour($config->get('games')['Parkour']);
     }
 
     /**
