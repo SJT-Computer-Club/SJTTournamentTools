@@ -47,4 +47,22 @@ class GameManager {
                 $this->currentGame = new TreasureHunt($this->config['TreasureHunt']);
         }
     }
+
+    /**
+     * Start the game
+     */
+    public function startGame() {
+        if ($this->currentGame !== null) {
+            $this->currentGame->start();
+        }
+    }
+
+    /**
+     * Tick the current game. Called every second.
+     */
+    public function tick() {
+        if ($this->currentGame !== null) {
+            $this->currentGame->tick();
+        }
+    }
 }

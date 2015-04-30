@@ -6,8 +6,6 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
-use pocketmine\Server;
-
 use Psycle\SJTTournamentTools\GameManager;
 use Psycle\SJTTournamentTools\LocationManager;
 
@@ -19,10 +17,10 @@ class SJTTournamentTools extends PluginBase implements Listener {
     /** @var SJTMapTools A static reference to this plugin instance */
     private static $instance;
 
-    /** @var Psycle\SJTTournamentTools\LocationManager Instance of LocationManager to handle locations */
+    /** @var LocationManager Instance of LocationManager to handle locations */
     private $locationManager;
 
-    /** @var Psycle\SJTTournamentTools\GameManager Instance of Game manager to handle games */
+    /** @var GameManager Instance of Game manager to handle games */
     private $gameManager;
 
 
@@ -39,6 +37,9 @@ class SJTTournamentTools extends PluginBase implements Listener {
 
         $this->locationManager = new LocationManager($this->getConfig()->get('locations'));
         $this->gameManager = new GameManager($this->getConfig()->get('games'));
+
+        $this->getServer()->getScheduler()->scheduleRepeatingTask(new EveryMinuteTask($this), 60 * 20);
+        $this->getServer()->getScheduler()->scheduleRepeatingTask(new EverySecondTask($this), 1 * 20);
     }
 
     /**
@@ -58,6 +59,14 @@ class SJTTournamentTools extends PluginBase implements Listener {
         return self::$instance;
     }
 
+    /**
+     * Get the GameManager
+     *
+     * @return GameManager
+     */
+    public function getGameManager() {
+        return $this->gameManager;
+    }
 
     /* Data handling */
 
