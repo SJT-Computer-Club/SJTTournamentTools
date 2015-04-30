@@ -7,7 +7,7 @@ namespace Psycle\SJTTournamentTools\Game;
  *
  * @author austin
  */
-class TreasureHunt extends Game {
+class Build extends Game {
     /**
      * Constructor
      *
