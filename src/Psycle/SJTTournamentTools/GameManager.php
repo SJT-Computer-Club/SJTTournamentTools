@@ -13,23 +13,15 @@ use Psycle\SJTTournamentTools\Game\TreasureHunt;
  */
 class GameManager {
 
-    /**
-     * Types of game
-     */
+    /** Types of game */
     const GAME_TYPE_BUILD = 1,
           GAME_TYPE_PARKOUR = 2,
           GAME_TYPE_TREASUREHUNT = 3;
 
-    /**
-     * The currently active game, null if no game active.
-     * @var Psycle\SJTTournamentTools\Game
-     */
+    /** @var Psycle\SJTTournamentTools\Game The currently active game, null if no game active. */
     private $currentGame = null;
 
-    /**
-     * Configuration array
-     * @var array
-     */
+    /** @var array Configuration array */
     private $config = null;
 
     /**

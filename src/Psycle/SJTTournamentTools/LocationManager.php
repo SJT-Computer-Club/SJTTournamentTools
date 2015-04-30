@@ -10,10 +10,7 @@ use pocketmine\math\Vector3;
  * @author austin
  */
 class LocationManager {
-    /**
-     * The array of locations
-     * @var type array
-     */
+    /** @var array The array of locations */
     private $locations = array();
 
     /**

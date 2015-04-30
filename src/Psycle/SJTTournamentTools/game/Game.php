@@ -8,16 +8,10 @@ namespace Psycle\SJTTournamentTools\Game;
  * @author austin
  */
 abstract class Game {
-    /**
-     * The message shown to the user when the game starts
-     * @var type string
-     */
+    /** @var string The message shown to the user when the game starts */
     protected $message = "";
 
-    /**
-     * The duration of the game in minutes
-     * @var type int
-     */
+    /** @var int The duration of the game in minutes */
     protected $duration = 10;
 
     /**

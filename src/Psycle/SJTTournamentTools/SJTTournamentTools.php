@@ -16,23 +16,13 @@ use Psycle\SJTTournamentTools\LocationManager;
  */
 class SJTTournamentTools extends PluginBase implements Listener {
 
-    /**
-     * A static reference to this plugin instance
-     * @var SJTMapTools
-     */
+    /** @var SJTMapTools A static reference to this plugin instance */
     private static $instance;
 
-    /**
-     * Instance of LocationManager to handle locations
-     *
-     * @var type Psycle\SJTTournamentTools\LocationManager
-     */
+    /** @var Psycle\SJTTournamentTools\LocationManager Instance of LocationManager to handle locations */
     private $locationManager;
 
-    /**
-     * Instance of Game manager to handle games
-     * @var type Psycle\SJTTournamentTools\GameManager
-     */
+    /** @var Psycle\SJTTournamentTools\GameManager Instance of Game manager to handle games */
     private $gameManager;
 
 
