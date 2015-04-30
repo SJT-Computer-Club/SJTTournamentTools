@@ -9,6 +9,7 @@ use pocketmine\plugin\PluginBase;
 use pocketmine\Server;
 
 use Psycle\SJTTournamentTools\Game\Parkour;
+use Psycle\SJTTournamentTools\LocationManager;
 
 /**
  * Main plugin class
@@ -21,6 +22,13 @@ class SJTTournamentTools extends PluginBase implements Listener {
      */
     private static $instance;
 
+    /**
+     * Instance of LocationManager to handle locations
+     *
+     * @var type Psycle\SJTTournamentTools\LocationManager
+     */
+    private $locationManager;
+
 
     /**
      * Called when the plugin is enabled
@@ -32,12 +40,16 @@ class SJTTournamentTools extends PluginBase implements Listener {
 
         $this->initConfig();
         $this->initDataFolder();
+
+        $this->locationManager = new LocationManager($this->getConfig()->get('locations'));
     }
 
     /**
      * Called when the plugin is disabled
      */
     public function onDisable() {
+        $this->getConfig()->set('locations', $this->locationManager->getLocations());
+        $this->getConfig()->save();
         $this->getLogger()->info('Plugin Disabled');
     }
 
@@ -60,12 +72,6 @@ class SJTTournamentTools extends PluginBase implements Listener {
         // Take the default config from [plugin folder]/resources/config.yml
         // and save it to [data folder]/config.yml if the file doesn't exist
         $this->saveDefaultConfig();
-
-        $config = $this->getConfig();
-
-        $level = Server::getInstance()->getDefaultLevel();
-
-        //$parkour = new Parkour($config->get('games')['Parkour']);
     }
 
     /**
@@ -92,23 +98,72 @@ class SJTTournamentTools extends PluginBase implements Listener {
      */
     public function onCommand(CommandSender $sender, Command $command, $label, array $args) {
         switch (strtolower($command->getName())) {
-            case 'samplecommand':
-                $this->getLogger()->info($sender->getName() . ' called samplecommand');
-                return $this->sampleCommand($sender, $args);
+            case 'addlocation':
+                $this->getLogger()->info($sender->getName() . ' called addlocation');
+                return $this->addLocation($sender, $args);
+            case 'tptolocation':
+                $this->getLogger()->info($sender->getName() . ' called tptolocation');
+                return $this->tpToLocation($sender, $args);
         }
 
         return false;
     }
 
     /**
-     * List all currently defined regions.
+     * Adds a location.
      *
      * @param CommandSender $sender The command sender object
      * @param array $args The arguments passed to the command
      * @return boolean true if successful
      */
-    private function sampleCommand(CommandSender $sender, array $args) {
-        $sender->sendMessage("Sample Command Output");
+    private function addLocation(CommandSender $sender, array $args) {
+        $player = $this->getServer()->getPlayer($sender->getName());
+
+        if (!$player) {
+            $sender->sendMessage('The player "' . $sender->getName() . '" doesn\'t exist.  Are you trying to run addlocation from the console?');
+            return false;
+        }
+
+        if (!isset($args[0]) || $args[0] == '') {
+            $sender->sendMessage('Please supply a location name');
+            $this->getLogger()->info('addlocation failed, ' . $sender->getName() . ' did not specify a location name');
+            return false;
+        }
+
+        $this->locationManager->addLocation($args[0], $player->x, $player->y, $player->z);
+        $sender->sendMessage('Location ' . $args[0] . '[' . $player->x . ',' . $player->y . ',' . $player->z . '] added');
+
+        return true;
+    }
+
+    /**
+     * Teleport a named player to a named location
+     *
+     * @param CommandSender $sender The command sender object
+     * @param array $args The arguments passed to the command
+     * @return boolean true if successful
+     */
+    private function tpToLocation(CommandSender $sender, array $args) {
+        if (!isset($args[0]) || $args[0] == '') {
+            $sender->sendMessage('Please supply a player name');
+            $this->getLogger()->info('tptolocation failed, ' . $sender->getName() . ' did not specify a player name');
+            return false;
+        }
+
+        if (!isset($args[1]) || $args[1] == '') {
+            $sender->sendMessage('Please supply a location name');
+            $this->getLogger()->info('tptolocation failed, ' . $sender->getName() . ' did not specify a location name');
+            return false;
+        }
+
+        $player = $this->getServer()->getPlayer($args[0]);
+
+        if (!$player) {
+            $sender->sendMessage('The player "' . $sender->getName() . '" doesn\'t exist');
+            return false;
+        }
+
+        $this->locationManager->teleportToLocation($player, $args[1]);
 
         return true;
     }

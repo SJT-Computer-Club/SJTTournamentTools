@@ -4,7 +4,10 @@ version: 0.0.1
 api: 1.11.0
 
 commands:
-    samplecommand:
-        description: "Sample Command"
-        usage: "/samplecommand"
+    addlocation:
+        description: "Adds a Location to the configuration"
+        usage: "/addlocation <locationname>"
+    tptolocation:
+        description: "Teleport a player to a location"
+        usage: "/tptolocation <playername> <locationname>"
 
