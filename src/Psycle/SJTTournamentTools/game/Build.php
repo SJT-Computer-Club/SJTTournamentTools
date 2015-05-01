@@ -2,6 +2,8 @@
 
 namespace Psycle\SJTTournamentTools\Game;
 
+use Psycle\SJTTournamentTools\SJTTournamentTools;
+
 /**
  * Description of Parkour
  *
@@ -15,6 +17,9 @@ class Build extends Game {
      */
     public function __construct($config) {
         parent::__construct($config);
+
+        $plugin = SJTTournamentTools::getInstance();
+        $plugin->getLocationManager()->teleportPlayersToGrid('Build', $plugin->getPlayers(), 16, 5);
     }
 
     public function start() {

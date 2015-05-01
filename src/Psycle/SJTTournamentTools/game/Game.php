@@ -22,6 +22,9 @@ abstract class Game {
     /** @var int The start time of the game, in seconds since epoch */
     protected $startTime = 0;
 
+    /** @var array The player scores */
+    protected $scores = array();
+
     /**
      * Constructor
      *
@@ -30,6 +33,8 @@ abstract class Game {
     public function __construct($config) {
         $this->message = $config['message'];
         $this->duration = $config['duration'];
+
+        SJTTournamentTools::getInstance()->getServer()->broadcastMessage($this->message);
     }
 
     /**

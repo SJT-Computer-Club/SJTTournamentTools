@@ -35,9 +35,15 @@ class GameManager {
 
     /**
      * Create a new game of a given type
+     *
      * @param int $gameType GAME_TYPE_BUILD | GAME_TYPE_PARKOUR | GAME_TYPE_TREASUREHUNT
+     * @return bool true if successful
      */
     public function setupGame($gameType) {
+        if ($this->currentGame !== null) {
+            return false;
+        }
+
         switch ($gameType) {
             case self::GAME_TYPE_BUILD:
                 $this->currentGame = new Build($this->config['Build']);
@@ -46,6 +52,8 @@ class GameManager {
             case self::GAME_TYPE_TREASUREHUNT:
                 $this->currentGame = new TreasureHunt($this->config['TreasureHunt']);
         }
+
+        return true;
     }
 
     /**

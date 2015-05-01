@@ -23,6 +23,8 @@ class SJTTournamentTools extends PluginBase implements Listener {
     /** @var GameManager Instance of Game manager to handle games */
     private $gameManager;
 
+    /** @var array Array of player names */
+    private $players = array();
 
     /**
      * Called when the plugin is enabled
@@ -37,6 +39,7 @@ class SJTTournamentTools extends PluginBase implements Listener {
 
         $this->locationManager = new LocationManager($this->getConfig()->get('locations'));
         $this->gameManager = new GameManager($this->getConfig()->get('games'));
+        $this->players = $this->getConfig()->get('players');
 
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new EveryMinuteTask($this), 60 * 20);
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new EverySecondTask($this), 1 * 20);
@@ -60,12 +63,30 @@ class SJTTournamentTools extends PluginBase implements Listener {
     }
 
     /**
+     * Get the LocationManager
+     *
+     * @return LocationManager
+     */
+    public function getLocationManager() {
+        return $this->locationManager;
+    }
+
+    /**
      * Get the GameManager
      *
      * @return GameManager
      */
     public function getGameManager() {
         return $this->gameManager;
+    }
+
+    /**
+     * Get the array of player names
+     *
+     * @return array
+     */
+    public function getPlayers() {
+        return $this->players;
     }
 
     /* Data handling */
@@ -110,6 +131,15 @@ class SJTTournamentTools extends PluginBase implements Listener {
             case 'tptolocation':
                 $this->getLogger()->info($sender->getName() . ' called tptolocation');
                 return $this->tpToLocation($sender, $args);
+            case 'build':
+                $this->getLogger()->info($sender->getName() . ' called build');
+                return $this->gameManager->setupGame(GameManager::GAME_TYPE_BUILD);
+            case 'parkour':
+                $this->getLogger()->info($sender->getName() . ' called parkour');
+                return $this->gameManager->setupGame(GameManager::GAME_TYPE_PARKOUR);
+            case 'treasurehunt':
+                $this->getLogger()->info($sender->getName() . ' called treasurehunt');
+                return $this->gameManager->setupGame(GameManager::GAME_TYPE_TREASUREHUNT);
         }
 
         return false;
@@ -162,14 +192,7 @@ class SJTTournamentTools extends PluginBase implements Listener {
             return false;
         }
 
-        $player = $this->getServer()->getPlayer($args[0]);
-
-        if (!$player) {
-            $sender->sendMessage('The player "' . $sender->getName() . '" doesn\'t exist');
-            return false;
-        }
-
-        $this->locationManager->teleportToLocation($player, $args[1]);
+        $this->locationManager->teleportPlayerToLocation($args[1], $args[0]);
 
         return true;
     }

@@ -10,4 +10,12 @@ commands:
     tptolocation:
         description: "Teleport a player to a location"
         usage: "/tptolocation <playername> <locationname>"
-
+    build:
+        description: "Set up a game of build"
+        usage: "/build"
+    parkour:
+        description: "Set up a game of parkour"
+        usage: "/parkour"
+    treasurehunt:
+        description: "Set up a game of treasure hunt"
+        usage: "/treasurehunt"
