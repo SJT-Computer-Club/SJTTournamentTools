@@ -187,12 +187,17 @@ class SJTTournamentTools extends PluginBase implements Listener {
         }
 
         if (!isset($args[1]) || $args[1] == '') {
-            $sender->sendMessage('Please supply a location name');
-            $this->getLogger()->info('tptolocation failed, ' . $sender->getName() . ' did not specify a location name');
-            return false;
+            if ($this->gameManager->getCurrentGameType() !== null) {
+                $args[1] = $this->gameManager->getCurrentGameType();
+            } else {
+                $sender->sendMessage('There is no currently active game, please supply a location name');
+                $this->getLogger()->info('tptolocation failed, ' . $sender->getName() . ' did not specify a location name and there is no current game');
+                return false;
+            }
         }
 
         $this->locationManager->teleportPlayerToLocation($args[1], $args[0]);
+        $sender->sendMessage('Teleported ' . $args[0] . ' to ' . $args[1]);
 
         return true;
     }

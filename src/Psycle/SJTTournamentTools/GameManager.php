@@ -14,9 +14,9 @@ use Psycle\SJTTournamentTools\Game\TreasureHunt;
 class GameManager {
 
     /** Types of game */
-    const GAME_TYPE_BUILD = 1,
-          GAME_TYPE_PARKOUR = 2,
-          GAME_TYPE_TREASUREHUNT = 3;
+    const GAME_TYPE_BUILD = 'Build',
+          GAME_TYPE_PARKOUR = 'Parkour',
+          GAME_TYPE_TREASUREHUNT = 'TreasureHunt';
 
     /** @var Psycle\SJTTournamentTools\Game The currently active game, null if no game active. */
     private $currentGame = null;
@@ -57,6 +57,20 @@ class GameManager {
         }
 
         return true;
+    }
+
+    /**
+     * Returns the current game type, or null if none.
+     *
+     * @return string null | GAME_TYPE_BUILD | GAME_TYPE_PARKOUR | GAME_TYPE_TREASUREHUNT
+     */
+    public function getCurrentGameType() {
+        if ($this->currentGame == null) {
+            return null;
+        }
+
+        $reflect = new \ReflectionClass($this->currentGame);
+        return $reflect->getShortName();
     }
 
     /**
