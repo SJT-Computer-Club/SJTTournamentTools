@@ -15,7 +15,7 @@ use Psycle\SJTTournamentTools\SJTTournamentTools;
  */
 class Build extends Game {
     /**
-     * Constructor
+     * Constructor.  Clears the build area and teleports all players to the start location.
      *
      * @param array $config The configuration array for the game (from the config file)
      */
@@ -27,10 +27,16 @@ class Build extends Game {
         $this->clearBuildArea();
     }
 
+    /**
+     * Start the game.
+     */
     public function start() {
         parent::start();
     }
 
+    /**
+     * Stop the game.
+     */
     public function stop() {
         parent::stop();
     }

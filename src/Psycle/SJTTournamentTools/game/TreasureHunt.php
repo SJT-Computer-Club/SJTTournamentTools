@@ -15,7 +15,7 @@ use Psycle\SJTTournamentTools\SJTTournamentTools;
  */
 class TreasureHunt extends Game {
     /**
-     * Constructor
+     * Constructor.  Distributes the treasure blocks and teleports all players to the start location.
      *
      * @param array $config The configuration array for the game (from the config file)
      */
@@ -27,10 +27,16 @@ class TreasureHunt extends Game {
         $this->distributeBlocks();
     }
 
+    /**
+     * Start the game.
+     */
     public function start() {
         parent::start();
     }
 
+    /**
+     * Stop the game.  Clear all treasure blocks to ensure no-one can score after the game has finished.
+     */
     public function stop() {
         parent::stop();
     }
