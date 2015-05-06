@@ -39,6 +39,8 @@ class TreasureHunt extends Game {
      */
     public function stop() {
         parent::stop();
+
+        $this->clearBlocks();
     }
 
     public function getStatus() {
@@ -63,4 +65,17 @@ class TreasureHunt extends Game {
             }
 		}
 	}
+
+    /**
+     * Remove all treasure blocks
+     */
+    private function clearBlocks() {
+        $plugin = SJTTournamentTools::getInstance();
+		$level = Server::getInstance()->getDefaultLevel();
+		$locations = $plugin->getLocationManager()->getLocations();
+
+		foreach ($locations as $k => $v) {
+            $level->setBlock(new Vector3($v['x'], $v['y'], $v['z']), new Air(), true, true);
+ 		}
+    }
 }
