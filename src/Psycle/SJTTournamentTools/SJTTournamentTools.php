@@ -196,6 +196,12 @@ class SJTTournamentTools extends PluginBase implements Listener {
             }
         }
 
+        if ($this->locationManager->getLocation($args[1]) == null) {
+            $sender->sendMessage('Location ' . $args[1] . ' doesn\'t exist');
+            $this->getLogger()->info('tptolocation failed, ' . $sender->getName() . ' specified a location ' . $args[1] . ' which doesn\'t exist');
+            return false;
+        }
+        
         $this->locationManager->teleportPlayerToLocation($args[1], $args[0]);
         $sender->sendMessage('Teleported ' . $args[0] . ' to ' . $args[1]);
 
