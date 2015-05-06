@@ -2,6 +2,10 @@
 
 namespace Psycle\SJTTournamentTools\Game;
 
+use pocketmine\block\Air;
+use pocketmine\block\Gold;
+use pocketmine\math\Vector3;
+use pocketmine\Server;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
 
 /**
@@ -20,6 +24,7 @@ class TreasureHunt extends Game {
 
         $plugin = SJTTournamentTools::getInstance();
         $plugin->getLocationManager()->teleportPlayersToCircle('TreasureHunt', $plugin->getPlayers());
+        $this->distributeBlocks();
     }
 
     public function start() {
@@ -33,4 +38,23 @@ class TreasureHunt extends Game {
     public function getStatus() {
 
     }
+
+    /**
+     * Randomly assign blocks to all locations.
+     */
+    private function distributeBlocks() {
+        $plugin = SJTTournamentTools::getInstance();
+		$level = Server::getInstance()->getDefaultLevel();
+		$locations = $plugin->getLocationManager()->getLocations();
+
+		foreach ($locations as $k => $v) {
+			if (rand(0, 10) < 5) {
+                $plugin->getLogger()->info('Treasure at ' . $k . ' ' . $v['x'] . ',' . $v['y'] . ',' . $v['z']);
+				$level->setBlock(new Vector3($v['x'], $v['y'], $v['z']), new Gold(), false, false);
+			} else {
+                $plugin->getLogger()->info('Air at ' . $k . ' ' . $v['x'] . ',' . $v['y'] . ',' . $v['z']);
+				$level->setBlock(new Vector3($v['x'], $v['y'], $v['z']), new Air(), false, false);
+            }
+		}
+	}
 }

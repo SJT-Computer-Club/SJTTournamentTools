@@ -47,10 +47,13 @@ class GameManager {
         switch ($gameType) {
             case self::GAME_TYPE_BUILD:
                 $this->currentGame = new Build($this->config['Build']);
+                break;
             case self::GAME_TYPE_PARKOUR:
                 $this->currentGame = new Parkour($this->config['Parkour']);
+                break;
             case self::GAME_TYPE_TREASUREHUNT:
                 $this->currentGame = new TreasureHunt($this->config['TreasureHunt']);
+                break;
         }
 
         return true;

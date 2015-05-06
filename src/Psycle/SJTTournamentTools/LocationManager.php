@@ -32,6 +32,20 @@ class LocationManager {
     }
 
     /**
+     * Get a location by its title
+     *
+     * @param string $title The name of the location
+     * @return array The location details
+     */
+    public function getLocation($title) {
+        if (!array_key_exists($title, $this->locations)) {
+            return null;
+        }
+
+        return $this->locations[$title];
+    }
+
+    /**
      * Add a location
      *
      * @param string $title The name of the location
