@@ -2,7 +2,7 @@
 
 namespace Psycle\SJTTournamentTools\Game;
 
-use \Psycle\SJTTournamentTools\SJTTournamentTools;
+use Psycle\SJTTournamentTools\SJTTournamentTools;
 
 /**
  * The superclass of all types of game
@@ -35,6 +35,7 @@ abstract class Game {
         $this->duration = $config['duration'];
 
         SJTTournamentTools::getInstance()->getServer()->broadcastMessage($this->message);
+        SJTTournamentTools::getInstance()->getServer()->broadcastMessage($this->duration . ' minutes and counting!');
     }
 
     /**
