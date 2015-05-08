@@ -72,9 +72,9 @@ abstract class Game {
         } elseif ($secondsToGo % 60 == 0) {
             SJTTournamentTools::getInstance()->getServer()->broadcastMessage((int)($secondsToGo / 60) . ' minute' . ((int)($secondsToGo / 60) == 1 ? '' : 's') . ' to go');
         } elseif ($secondsToGo == 30) {
-            SJTTournamentTools::getInstance()->getServer()->broadcastMessage('==>> ' . $secondsToGo . ' !');
+            SJTTournamentTools::getInstance()->getServer()->broadcastMessage('==>> ' . $secondsToGo . ' seconds!');
         } elseif ($secondsToGo <= 10) {
-            SJTTournamentTools::getInstance()->getServer()->broadcastMessage('==>> ' . $secondsToGo . ' !');
+            SJTTournamentTools::getInstance()->getServer()->broadcastMessage('==>> ' . $secondsToGo . '!');
         }
 
         return true;
