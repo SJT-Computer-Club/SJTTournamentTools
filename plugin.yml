@@ -1,10 +1,27 @@
 name: SJTTournamentTools
 main: Psycle\SJTTournamentTools\SJTTournamentTools
 version: 0.0.1
-api: 1.0.0
+api: 1.11.0
 
 commands:
-    samplecommand:
-        description: "Sample Command"
-        usage: "/samplecommand"
-
+    addlocation:
+        description: "Adds a Location to the configuration"
+        usage: "/addlocation <locationname>"
+    tu:
+        description: "Teleport a player to a location"
+        usage: "/tu <playername> <locationname>"
+    build:
+        description: "Set up a game of build"
+        usage: "/build"
+    parkour:
+        description: "Set up a game of parkour"
+        usage: "/parkour"
+    treasurehunt:
+        description: "Set up a game of treasure hunt"
+        usage: "/treasurehunt"
+    gamestart:
+        description: "Start the game"
+        usage: "/gamestart"
+    gamestop:
+        description: "Stop the current game"
+        usage: "/gamestop"
