@@ -2,10 +2,10 @@
 
 namespace Psycle\SJTTournamentTools;
 
-use pocketmine\block\Block;
+use pocketmine\block\Lava;
+use pocketmine\block\TNT;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\Player;
 use Psycle\SJTTournamentTools\Game\Build;
 use Psycle\SJTTournamentTools\Game\Game;
 use Psycle\SJTTournamentTools\Game\Parkour;
@@ -147,6 +147,14 @@ class GameManager {
      * @param BlockPlaceEvent $event The event
      */
     public function blockPlaceEvent(BlockPlaceEvent $event) {
+        $block = $event->getBlock();
+
+        // No-one can place dangerous block types
+        if ($block instanceof Lava || $block instanceof TNT) {
+            $event->setCancelled();
+            return;
+        }
+
         // If there is no current game, disallow block placing for normal users
         if ($this->currentGame == null || !$this->currentGame->isRunning()) {
             if (!$event->getPlayer()->isOp()) {
