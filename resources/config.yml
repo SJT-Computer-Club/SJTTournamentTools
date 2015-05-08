@@ -208,7 +208,3 @@ locations:
     y: 64
     z: 3
 
-# Scoring
-scoreblocks:
-  Gold Block: 5
-  Diamond Block: 5

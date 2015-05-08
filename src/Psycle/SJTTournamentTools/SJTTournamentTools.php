@@ -4,6 +4,8 @@ namespace Psycle\SJTTournamentTools;
 
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
+use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use Psycle\SJTTournamentTools\GameManager;
@@ -41,8 +43,12 @@ class SJTTournamentTools extends PluginBase implements Listener {
         $this->gameManager = new GameManager($this->getConfig()->get('games'));
         $this->players = $this->getConfig()->get('players');
 
+        // Register repeating actions
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new EveryMinuteTask($this), 60 * 20);
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new EverySecondTask($this), 1 * 20);
+
+        // Listen for events
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
     }
 
     /**
@@ -56,7 +62,7 @@ class SJTTournamentTools extends PluginBase implements Listener {
 
     /**
      * Returns the plugin instance
-     * @return SJTMapTools The plugin instance
+     * @return SJTTournamentTools The plugin instance
      */
     public static function getInstance() {
         return self::$instance;
@@ -128,8 +134,8 @@ class SJTTournamentTools extends PluginBase implements Listener {
             case 'addlocation':
                 $this->getLogger()->info($sender->getName() . ' called addlocation');
                 return $this->addLocation($sender, $args);
-            case 'tptolocation':
-                $this->getLogger()->info($sender->getName() . ' called tptolocation');
+            case 'tu':
+                $this->getLogger()->info($sender->getName() . ' called tu');
                 return $this->tpToLocation($sender, $args);
             case 'build':
                 $this->getLogger()->info($sender->getName() . ' called build');
@@ -140,7 +146,13 @@ class SJTTournamentTools extends PluginBase implements Listener {
             case 'treasurehunt':
                 $this->getLogger()->info($sender->getName() . ' called treasurehunt');
                 return $this->gameManager->setupGame(GameManager::GAME_TYPE_TREASUREHUNT);
-        }
+            case 'gamestart':
+                $this->getLogger()->info($sender->getName() . ' called gamestart');
+                return $this->gameManager->startGame();
+            case 'gamestop':
+                $this->getLogger()->info($sender->getName() . ' called gamestop');
+                return $this->gameManager->stopGame();
+       }
 
         return false;
     }
@@ -201,10 +213,34 @@ class SJTTournamentTools extends PluginBase implements Listener {
             $this->getLogger()->info('tptolocation failed, ' . $sender->getName() . ' specified a location ' . $args[1] . ' which doesn\'t exist');
             return false;
         }
-        
+
         $this->locationManager->teleportPlayerToLocation($args[1], $args[0]);
         $sender->sendMessage('Teleported ' . $args[0] . ' to ' . $args[1]);
 
         return true;
+    }
+
+    /**
+     * Handle BlockBreakEvent.
+     *
+     * @param BlockBreakEvent $event The event
+     *
+     * @priority       NORMAL
+     * @ignoreCanceled false
+     */
+    public function onBlockBreak(BlockBreakEvent $event) {
+        $this->gameManager->blockBreakEvent($event);
+    }
+
+    /**
+     * Handle BlockPlaceEvent.
+     *
+     * @param BlockPlaceEvent $event The event
+     *
+     * @priority       NORMAL
+     * @ignoreCanceled false
+     */
+    public function onBlockPlace(BlockPlaceEvent $event) {
+        $this->gameManager->blockPlaceEvent($event);
     }
 }

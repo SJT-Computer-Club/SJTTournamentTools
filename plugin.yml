@@ -7,9 +7,9 @@ commands:
     addlocation:
         description: "Adds a Location to the configuration"
         usage: "/addlocation <locationname>"
-    tptolocation:
+    tu:
         description: "Teleport a player to a location"
-        usage: "/tptolocation <playername> <locationname>"
+        usage: "/tu <playername> <locationname>"
     build:
         description: "Set up a game of build"
         usage: "/build"
@@ -19,3 +19,9 @@ commands:
     treasurehunt:
         description: "Set up a game of treasure hunt"
         usage: "/treasurehunt"
+    gamestart:
+        description: "Start the game"
+        usage: "/gamestart"
+    gamestop:
+        description: "Stop the current game"
+        usage: "/gamestop"

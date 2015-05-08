@@ -81,4 +81,11 @@ class Build extends Game {
 			}
 		}
     }
+
+    /**
+     * Display the scores for the game - in this case just show a message about judging
+     */
+    public function displayScores() {
+        SJTTournamentTools::getInstance()->getServer()->broadcastMessage('Please wait while the judges decide on the scores...');
+    }
 }

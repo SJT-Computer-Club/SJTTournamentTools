@@ -4,6 +4,7 @@ namespace Psycle\SJTTournamentTools\Game;
 
 use pocketmine\block\Air;
 use pocketmine\block\Gold;
+use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\math\Vector3;
 use pocketmine\Server;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
@@ -14,6 +15,9 @@ use Psycle\SJTTournamentTools\SJTTournamentTools;
  * @author austin
  */
 class TreasureHunt extends Game {
+    /** @var array Player scores */
+    private $scores = null;
+
     /**
      * Constructor.  Distributes the treasure blocks and teleports all players to the start location.
      *
@@ -78,4 +82,66 @@ class TreasureHunt extends Game {
             $level->setBlock(new Vector3($v['x'], $v['y'], $v['z']), new Air(), true, true);
  		}
     }
+
+    /**
+     * Handle a BlockBreakEvent
+     *
+     * @param BlockBreakEvent $event The Event
+     */
+    public function blockBreakEvent(BlockBreakEvent $event) {
+        $player = $event->getPlayer();
+        $block = $event->getBlock();
+
+        // Whatever happens, don't allow blocks to be broken during a game
+        if (!$player->isOp()) {
+            $event->setCancelled();
+        }
+
+        if (!$this->running) {
+            return;
+        }
+
+        if ($block instanceof Gold) {
+            // Handle player scoring
+            $this->playerScored($player, $block);
+        }
+    }
+
+    /**
+     * The player has scored
+     *
+     * @param Player $player The Player
+     * @param Block $block The Block the player has scored
+     */
+    private function playerScored(Player $player, Block $block) {
+        $score = 10;
+        $playerName = $player->getName;
+        $scoreKey = $block->getX() . '-' . $block->getY() . '-' . $block->getZ();
+
+        if (!array_key_exists($playerName, $this->scores)) {
+            $this->scores[$playerName] = array();
+        }
+
+        if (!array_key_exists($scoreKey, $this->scores[$playerName])) {
+            $this->scores[$playerName][$scoreKey] = $score;
+            SJTTournamentTools::getInstance()->getServer()->broadcastMessage($playerName . ' scored ' . $score);
+        }
+    }
+
+    /**
+     * Display all scores for this game
+     */
+    public function displayScores() {
+        SJTTournamentTools::getInstance()->getServer()->broadcastMessage('Scores for recent game of Treasure Hunt are...');
+
+        foreach ($this->scores as $playerName => $playerScores) {
+			$score = 0;
+			foreach ($playerScores as $location => $value) {
+				$score += $value;
+			}
+
+            SJTTournamentTools::getInstance()->getServer()->broadcastMessage($playerName . ' scored ' . $score);
+		}
+    }
+
 }

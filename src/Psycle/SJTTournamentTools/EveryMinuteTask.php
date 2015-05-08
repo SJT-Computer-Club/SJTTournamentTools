@@ -38,5 +38,8 @@ class EveryMinuteTask extends PluginTask {
 
         // Keep it day all the time
         $level->setTime(Level::TIME_DAY);
+
+        // Reset spawn point for all players
+        
     }
 }

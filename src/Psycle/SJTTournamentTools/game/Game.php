@@ -22,9 +22,6 @@ abstract class Game {
     /** @var int The start time of the game, in seconds since epoch */
     protected $startTime = 0;
 
-    /** @var array The player scores */
-    protected $scores = array();
-
     /**
      * Constructor
      *
@@ -35,7 +32,6 @@ abstract class Game {
         $this->duration = $config['duration'];
 
         SJTTournamentTools::getInstance()->getServer()->broadcastMessage($this->message);
-        SJTTournamentTools::getInstance()->getServer()->broadcastMessage($this->duration . ' minutes and counting!');
     }
 
     /**
@@ -44,6 +40,9 @@ abstract class Game {
     public function start() {
         $this->startTime = time();
         $this->running = true;
+
+        SJTTournamentTools::getInstance()->getServer()->broadcastMessage('Go! Go! Go!');
+        SJTTournamentTools::getInstance()->getServer()->broadcastMessage($this->duration . ' minutes and counting!');
     }
 
     /**
@@ -51,6 +50,8 @@ abstract class Game {
      */
     public function stop() {
         $this->running = false;
+
+        SJTTournamentTools::getInstance()->getServer()->broadcastMessage('It\'s all over!');
     }
 
     /**
@@ -66,10 +67,10 @@ abstract class Game {
         $secondsToGo = $this->startTime + $this->duration * 60 - time();
 
         if ($secondsToGo <= 0) {
-            $this->stop();
+            SJTTournamentTools::getInstance()->getGameManager()->stopGame();
             return false;
         } elseif ($secondsToGo % 60 == 0) {
-            SJTTournamentTools::getInstance()->getServer()->broadcastMessage((int)($secondsToGo / 60) . ' minutes to go');
+            SJTTournamentTools::getInstance()->getServer()->broadcastMessage((int)($secondsToGo / 60) . ' minute' . ((int)($secondsToGo / 60) == 1 ? '' : 's') . ' to go');
         } elseif ($secondsToGo == 30) {
             SJTTournamentTools::getInstance()->getServer()->broadcastMessage('==>> ' . $secondsToGo . ' !');
         } elseif ($secondsToGo <= 10) {
@@ -79,5 +80,17 @@ abstract class Game {
         return true;
     }
 
+    /**
+     * Check whether the game is running
+     *
+     * @return boolean true if the game is running
+     */
+    public function isRunning() {
+        return $this->running;
+    }
+
+
     abstract function getStatus();
+
+    abstract function displayScores();
 }
