@@ -127,18 +127,7 @@ class GameManager {
             return;
         }
 
-        $gameType = $this->getCurrentGameType();
-
-        switch ($gameType) {
-            case self::GAME_TYPE_BUILD:
-                return;
-            case self::GAME_TYPE_PARKOUR:
-                $this->currentGame->blockBreakEvent($event);
-                return;
-            case self::GAME_TYPE_TREASUREHUNT:
-                $this->currentGame->blockBreakEvent($event);
-                return;
-        }
+        $this->currentGame->blockBreakEvent($event);
     }
 
      /**
@@ -149,7 +138,7 @@ class GameManager {
     public function blockPlaceEvent(BlockPlaceEvent $event) {
         $block = $event->getBlock();
 
-        // No-one can place dangerous block types
+        // No-one can place dangerous block types, not even ops!
         if ($block instanceof Lava || $block instanceof TNT) {
             $event->setCancelled();
             return;
@@ -167,6 +156,7 @@ class GameManager {
 
         switch ($gameType) {
             case self::GAME_TYPE_BUILD:
+                $this->currentGame->blockPlaceEvent($event);
                 return;
             case self::GAME_TYPE_PARKOUR:
                 // Fall through to next case
