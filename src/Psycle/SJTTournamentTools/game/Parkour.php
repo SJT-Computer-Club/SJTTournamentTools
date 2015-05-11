@@ -61,10 +61,6 @@ class Parkour extends Game {
             $event->setCancelled();
         }
 
-        if (!$this->running) {
-            return;
-        }
-
         if ($block instanceof Diamond) {
             // Handle player scoring
             $this->playerScored($player, $block, 10);

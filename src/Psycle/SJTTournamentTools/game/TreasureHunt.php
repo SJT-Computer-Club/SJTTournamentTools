@@ -99,10 +99,6 @@ class TreasureHunt extends Game {
             $event->setCancelled();
         }
 
-        if (!$this->running) {
-            return;
-        }
-
         if ($block instanceof Gold) {
             // Handle player scoring
             $this->playerScored($player, $block);
