@@ -7,6 +7,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
+use pocketmine\math\Vector3;
 use pocketmine\plugin\PluginBase;
 use Psycle\SJTTournamentTools\GameManager;
 use Psycle\SJTTournamentTools\LocationManager;
@@ -28,6 +29,9 @@ class SJTTournamentTools extends PluginBase implements Listener {
     /** @var array Array of player names */
     private $players = array();
 
+    /** @var Vector3 The default spawn point for all players */
+    private $spawnPoint;
+
     /**
      * Called when the plugin is enabled
      */
@@ -39,9 +43,12 @@ class SJTTournamentTools extends PluginBase implements Listener {
         $this->initConfig();
         $this->initDataFolder();
 
-        $this->locationManager = new LocationManager($this->getConfig()->get('locations'));
-        $this->gameManager = new GameManager($this->getConfig()->get('games'));
-        $this->players = $this->getConfig()->get('players');
+        $config = $this->getConfig();
+
+        $this->locationManager = new LocationManager($config->get('locations'));
+        $this->gameManager = new GameManager($config->get('games'));
+        $this->players = $config->get('players');
+        $this->spawnPoint = new Vector3($config->get('spawnpoint')['x'], $config->get('spawnpoint')['y'], $config->get('spawnpoint')['z']);
 
         // Register repeating actions
         $this->getServer()->getScheduler()->scheduleRepeatingTask(new EveryMinuteTask($this), 60 * 20);
@@ -93,6 +100,15 @@ class SJTTournamentTools extends PluginBase implements Listener {
      */
     public function getPlayers() {
         return $this->players;
+    }
+
+    /**
+     * Get the default spawn point
+     *
+     * @return Vector3
+     */
+    public function getSpawnPoint() {
+        return $this->spawnPoint;
     }
 
     /* Data handling */

@@ -5,6 +5,7 @@ namespace Psycle\SJTTournamentTools;
 use pocketmine\level\Level;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\Server;
+use pocketmine\math\Vector3;
 
 /**
  * Background tasks
@@ -40,6 +41,17 @@ class EveryMinuteTask extends PluginTask {
         $level->setTime(Level::TIME_DAY);
 
         // Reset spawn point for all players
-        
+        $plugin = SJTTournamentTools::getInstance();
+        $spawnPoint = $plugin->getSpawnPoint();
+
+        foreach ($plugin->getPlayers() as $playerName) {
+            $player = $plugin->getServer()->getPlayer($playerName);
+
+            if (!$player) {
+                continue;
+            }
+
+            $player->setSpawn($spawnPoint);
+        }
     }
 }
