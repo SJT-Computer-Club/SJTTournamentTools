@@ -2,10 +2,10 @@
 
 namespace Psycle\SJTTournamentTools;
 
-use pocketmine\block\Block;
+use pocketmine\block\Lava;
+use pocketmine\block\TNT;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\Player;
 use Psycle\SJTTournamentTools\Game\Build;
 use Psycle\SJTTournamentTools\Game\Game;
 use Psycle\SJTTournamentTools\Game\Parkour;
@@ -127,18 +127,7 @@ class GameManager {
             return;
         }
 
-        $gameType = $this->getCurrentGameType();
-
-        switch ($gameType) {
-            case self::GAME_TYPE_BUILD:
-                return;
-            case self::GAME_TYPE_PARKOUR:
-                $this->currentGame->blockBreakEvent($event);
-                return;
-            case self::GAME_TYPE_TREASUREHUNT:
-                $this->currentGame->blockBreakEvent($event);
-                return;
-        }
+        $this->currentGame->blockBreakEvent($event);
     }
 
      /**
@@ -147,6 +136,14 @@ class GameManager {
      * @param BlockPlaceEvent $event The event
      */
     public function blockPlaceEvent(BlockPlaceEvent $event) {
+        $block = $event->getBlock();
+
+        // No-one can place dangerous block types, not even ops!
+        if ($block instanceof Lava || $block instanceof TNT) {
+            $event->setCancelled();
+            return;
+        }
+
         // If there is no current game, disallow block placing for normal users
         if ($this->currentGame == null || !$this->currentGame->isRunning()) {
             if (!$event->getPlayer()->isOp()) {
@@ -159,6 +156,7 @@ class GameManager {
 
         switch ($gameType) {
             case self::GAME_TYPE_BUILD:
+                $this->currentGame->blockPlaceEvent($event);
                 return;
             case self::GAME_TYPE_PARKOUR:
                 // Fall through to next case

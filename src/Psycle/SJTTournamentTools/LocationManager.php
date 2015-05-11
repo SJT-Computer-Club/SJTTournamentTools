@@ -34,38 +34,38 @@ class LocationManager {
     /**
      * Get a location by its title
      *
-     * @param string $title The name of the location
+     * @param string $locationName The name of the location
      * @return array The location details
      */
-    public function getLocation($title) {
-        if (!array_key_exists($title, $this->locations)) {
+    public function getLocation($locationName) {
+        if (!array_key_exists($locationName, $this->locations)) {
             return null;
         }
 
-        return $this->locations[$title];
+        return $this->locations[$locationName];
     }
 
     /**
      * Add a location
      *
-     * @param string $title The name of the location
+     * @param string $locationName The name of the location
      * @param int $x The x coordinate
      * @param int $y The y coordinate
      * @param int $z The z coordinate
      */
-    public function addLocation($title, $x, $y, $z) {
-        $this->locations[$title] = ['x' => $x, 'y' => $y, 'z' => $z];
+    public function addLocation($locationName, $x, $y, $z) {
+        $this->locations[$locationName] = ['x' => $x, 'y' => $y, 'z' => $z];
     }
 
     /**
      * Teleport a player to a location
      *
-     * @param string $title The title of the location
+     * @param string $locationName The title of the location
      * @param Player $playerName The Player name
      * @return boolean true if successful
      */
-    public function teleportPlayerToLocation($title, $playerName) {
-        if (!array_key_exists($title, $this->locations)) {
+    public function teleportPlayerToLocation($locationName, $playerName) {
+        if (!array_key_exists($locationName, $this->locations)) {
             return false;
         }
 
@@ -75,7 +75,7 @@ class LocationManager {
             return false;
         }
 
-        $location = $this->locations[$title];
+        $location = $this->locations[$locationName];
         $player->teleport(new Vector3($location['x'], $location['y'], $location['z']));
 
         return true;
@@ -84,18 +84,18 @@ class LocationManager {
     /**
      * Teleport a set of players to a grid pattern around a location
      *
-     * @param string $title The title of the location
+     * @param string $locationName The name of the location
      * @param array $playerNames The array of player names
      * @param int $separation The distance between each player
      * @param int $cols The number of columns of players
      * @return boolean true if successful
      */
-    public function teleportPlayersToGrid($title, $playerNames, $separation, $cols) {
-        if (!array_key_exists($title, $this->locations)) {
+    public function teleportPlayersToGrid($locationName, $playerNames, $separation, $cols) {
+        if (!array_key_exists($locationName, $this->locations)) {
             return false;
         }
 
-		$location = $this->locations[$title];
+		$location = $this->locations[$locationName];
         $plugin = SJTTournamentTools::getInstance();
 
         $count = count($playerNames);
@@ -106,9 +106,9 @@ class LocationManager {
                 continue;
             }
 
-			$x = $location['x'] + 2 + ((int)($i / $cols) * $separation);
+			$x = $location['x'] + ($separation / 2) + ((int)($i / $cols) * $separation);
 			$y = $location['y'] + 1;
-			$z = $location['z'] - 1 + (($i % $cols) * $separation);
+			$z = $location['z'] + ($separation / 2) + (($i % $cols) * $separation);
 
             $player->teleport(new Vector3($x, $y, $z));
 		}
@@ -119,17 +119,17 @@ class LocationManager {
     /**
      * Teleport a set of players to a line at a location
      *
-     * @param string $title The title of the location
+     * @param string $locationName The name of the location
      * @param array $playerNames The array of player names
      * @param type $yaw The yaw (direction) to point the player
      * @return boolean true if successful
      */
-    public function teleportPlayersToLine($title, $playerNames, $yaw) {
-        if (!array_key_exists($title, $this->locations)) {
+    public function teleportPlayersToLine($locationName, $playerNames, $yaw) {
+        if (!array_key_exists($locationName, $this->locations)) {
             return false;
         }
 
-		$location = $this->locations[$title];
+		$location = $this->locations[$locationName];
         $plugin = SJTTournamentTools::getInstance();
 
 		$count = count($playerNames);
@@ -146,7 +146,7 @@ class LocationManager {
 				$x = $location["x"] + 2 * ($i / 2);
 			}
             $y = $location['y'];
-			$z = $location['z'] - 3;
+			$z = $location['z'];
 
             $player->setRotation($yaw, 0);
             $player->teleport(new Vector3($x, $y, $z));
@@ -159,16 +159,16 @@ class LocationManager {
      * Teleport a set of players to a circle centred around a location.  The radius of the circle varies depending on
      * the number of players.
      *
-     * @param string $title The title of the location
+     * @param string $locationName The title of the location
      * @param array $playerNames The array of player names
      * @return boolean true if successful
      */
-    public function teleportPlayersToCircle($title, $playerNames) {
-        if (!array_key_exists($title, $this->locations)) {
+    public function teleportPlayersToCircle($locationName, $playerNames) {
+        if (!array_key_exists($locationName, $this->locations)) {
             return false;
         }
 
-		$location = $this->locations[$title];
+		$location = $this->locations[$locationName];
         $plugin = SJTTournamentTools::getInstance();
 
         $count = count($playerNames);
