@@ -4,6 +4,9 @@ namespace Psycle\SJTTournamentTools\Game;
 
 use pocketmine\block\Air;
 use pocketmine\block\Quartz;
+use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockEvent;
+use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\math\Vector3;
 use pocketmine\Server;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
@@ -65,13 +68,24 @@ class Build extends Game {
 		$lengthx = self::PLATFORM_COUNT_X * (self::PLATFORM_WIDTH + 1);
 		$lengthz = self::PLATFORM_COUNT_Z * (self::PLATFORM_WIDTH + 1);
 
+        // TEMP clear large area 4 x 5 squares
+        /*for ($x = -5; $x < self::PLATFORM_WIDTH * 4 + 5; $x++) {
+			for ($z = -5; $z < self::PLATFORM_WIDTH * 5 + 5; $z++) {
+				$newx = $location['x'] + $x;
+				$newy = $location['y'];
+				$newz = $location['z'] + $z;
+
+				$level->setBlock(new Vector3($newx, $newy, $newz), new Air(), false, false);
+			}
+		}*/
+
         // Clear area above platforms
 		for ($x = 0; $x < $lengthx; $x++) {
 			for ($y = 0; $y < self::AIR_CLEARANCE; $y++) {
 				for ($z = 0; $z < $lengthz; $z++) {
-					$newx = $location['x'] + $x + 2;
+					$newx = $location['x'] + $x;
 					$newy = $location['y'] + $y + 1;
-					$newz = $location['z'] + $z - 1;
+					$newz = $location['z'] + $z;
 					$level->setBlock(new Vector3($newx, $newy, $newz), new Air(), false, false);
 				}
 			}
@@ -80,9 +94,9 @@ class Build extends Game {
         // Rebuild platforms and gaps between
 		for ($x = 0; $x < $lengthx; $x++) {
 			for ($z = 0; $z < $lengthz; $z++) {
-				$newx = $location['x'] + $x + 2;
+				$newx = $location['x'] + $x;
 				$newy = $location['y'];
-				$newz = $location['z'] + $z - 1;
+				$newz = $location['z'] + $z;
 				if (!(($x + 1) % 16) || !(($z + 1) % 16)) {
 					$level->setBlock(new Vector3($newx, $newy, $newz), new Air(), false, false);
 				} else {
@@ -139,9 +153,9 @@ class Build extends Game {
         }
 
         $location = $plugin->getLocationManager()->getLocation('Build');
-        $xmin = $location['x'] + 2 + ((int)($playerNumber / self::PLATFORM_COUNT_Z) * self::PLATFORM_WIDTH);
-        $xmax = $location['x'] + 2 + ((int)($playerNumber / self::PLATFORM_COUNT_Z + 1) * self::PLATFORM_WIDTH);
-        $zmin = $location['z'] - 1 + (($playerNumber % self::PLATFORM_COUNT_Z) * self::PLATFORM_WIDTH);
+        $xmin = $location['x'] + 1 + ((int)($playerNumber / self::PLATFORM_COUNT_Z) * self::PLATFORM_WIDTH);
+        $xmax = $location['x'] + ((int)($playerNumber / self::PLATFORM_COUNT_Z + 1) * self::PLATFORM_WIDTH);
+        $zmin = $location['z'] + (($playerNumber % self::PLATFORM_COUNT_Z) * self::PLATFORM_WIDTH);
         $zmax = $location['z'] - 1 + (($playerNumber % self::PLATFORM_COUNT_Z + 1) * self::PLATFORM_WIDTH);
 
         if ($block->getX() < $xmin || $block->getX() > $xmax || $block->getZ() < $zmin || $block->getZ() > $zmax) {
