@@ -8,6 +8,7 @@ use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\math\Vector3;
+use pocketmine\Player;
 use pocketmine\Server;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
 
@@ -37,6 +38,7 @@ class Build extends Game {
         $plugin = SJTTournamentTools::getInstance();
         $plugin->getLocationManager()->teleportPlayersToGrid('Build', $plugin->getPlayers(), self::PLATFORM_WIDTH + 1, self::PLATFORM_COUNT_Z);
         $this->clearBuildArea();
+        $this->setGameMode(Player::CREATIVE);
     }
 
     /**

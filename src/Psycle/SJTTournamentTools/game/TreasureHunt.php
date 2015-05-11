@@ -31,6 +31,7 @@ class TreasureHunt extends Game {
         $plugin = SJTTournamentTools::getInstance();
         $plugin->getLocationManager()->teleportPlayersToCircle('TreasureHunt', $plugin->getPlayers());
         $this->distributeBlocks();
+        $this->setGameMode(Player::ADVENTURE);
     }
 
     /**
