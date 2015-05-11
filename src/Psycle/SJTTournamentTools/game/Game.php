@@ -90,6 +90,25 @@ abstract class Game {
     }
 
 
+    /**
+     * Set the game mode for the players
+     *
+     * @param type $gameMode The game mode: Player::SURVIVAL | Player::CREATIVE || Player::ADVENTURE || Player::SPECTATOR
+     */
+    protected function setGameMode($gameMode) {
+        $plugin = SJTTournamentTools::getInstance();
+
+		foreach ($plugin->getPlayers() as $playerName) {
+            $player = $plugin->getServer()->getPlayer($playerName);
+
+            if (!$player) {
+                continue;
+            }
+
+            $player->setGameMode($gameMode);
+		}
+    }
+
     abstract function getStatus();
 
     abstract function displayScores();

@@ -5,6 +5,7 @@ namespace Psycle\SJTTournamentTools\Game;
 use pocketmine\block\Diamond;
 use pocketmine\event\block\BlockBreakEvent;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
+use pocketmine\Player;
 
 /**
  * Description of Parkour
@@ -27,6 +28,7 @@ class Parkour extends Game {
 
         $plugin = SJTTournamentTools::getInstance();
         $plugin->getLocationManager()->teleportPlayersToLine('Parkour', $plugin->getPlayers(), 0);
+        $this->setGameMode(Player::ADVENTURE);
     }
 
     /**
