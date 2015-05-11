@@ -26,6 +26,8 @@ class TreasureHunt extends Game {
     public function __construct($config) {
         parent::__construct($config);
 
+        $this->scores = array();
+
         $plugin = SJTTournamentTools::getInstance();
         $plugin->getLocationManager()->teleportPlayersToCircle('TreasureHunt', $plugin->getPlayers());
         $this->distributeBlocks();
@@ -95,10 +97,6 @@ class TreasureHunt extends Game {
         // Whatever happens, don't allow blocks to be broken during a game
         if (!$player->isOp()) {
             $event->setCancelled();
-        }
-
-        if (!$this->running) {
-            return;
         }
 
         if ($block instanceof Gold) {
