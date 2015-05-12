@@ -6,6 +6,7 @@ use pocketmine\block\Lava;
 use pocketmine\block\TNT;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Bucket;
 use Psycle\SJTTournamentTools\Game\Build;
@@ -214,6 +215,15 @@ class GameManager {
                 $this->currentGame->playerInteractEvent($event);
                 return;
         }
+   }
 
+   /**
+    * Damage event handling
+    *
+    * @param EntityDamageEvent $event The event
+    */
+   public function entityDamageEvent(EntityDamageEvent $event) {
+       // Disallow all damage
+       $event->setCancelled();
    }
 }
