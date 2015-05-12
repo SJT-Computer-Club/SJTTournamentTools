@@ -7,6 +7,7 @@ use pocketmine\block\Block;
 use pocketmine\block\Gold;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
+use pocketmine\Player;
 use pocketmine\Server;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
 
