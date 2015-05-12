@@ -99,7 +99,7 @@ class Build extends Game {
 				$newx = $location['x'] + $x;
 				$newy = $location['y'];
 				$newz = $location['z'] + $z;
-				if (!(($x + 1) % 16) || !(($z + 1) % 16)) {
+				if (!($x % (self::PLATFORM_WIDTH + 1)) || !($z % (self::PLATFORM_WIDTH + 1))) {
 					$level->setBlock(new Vector3($newx, $newy, $newz), new Air(), false, false);
 				} else {
 					$level->setBlock(new Vector3($newx, $newy, $newz), new Quartz(), false, false);
@@ -155,10 +155,10 @@ class Build extends Game {
         }
 
         $location = $plugin->getLocationManager()->getLocation('Build');
-        $xmin = $location['x'] + 1 + ((int)($playerNumber / self::PLATFORM_COUNT_Z) * self::PLATFORM_WIDTH);
-        $xmax = $location['x'] + ((int)($playerNumber / self::PLATFORM_COUNT_Z + 1) * self::PLATFORM_WIDTH);
-        $zmin = $location['z'] + (($playerNumber % self::PLATFORM_COUNT_Z) * self::PLATFORM_WIDTH);
-        $zmax = $location['z'] - 1 + (($playerNumber % self::PLATFORM_COUNT_Z + 1) * self::PLATFORM_WIDTH);
+        $xmin = $location['x'] + 1 + ((int)($playerNumber / self::PLATFORM_COUNT_Z) * (self::PLATFORM_WIDTH + 1));
+        $xmax = $xmin + self::PLATFORM_WIDTH - 1;
+        $zmin = $location['z'] + 1 + (($playerNumber % self::PLATFORM_COUNT_Z) * (self::PLATFORM_WIDTH + 1));
+        $zmax = $zmin + self::PLATFORM_WIDTH - 1;
 
         if ($block->getX() < $xmin || $block->getX() > $xmax || $block->getZ() < $zmin || $block->getZ() > $zmax) {
             $event->setCancelled();
