@@ -6,6 +6,7 @@ use pocketmine\block\Lava;
 use pocketmine\block\TNT;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use Psycle\SJTTournamentTools\Game\Build;
 use Psycle\SJTTournamentTools\Game\Game;
 use Psycle\SJTTournamentTools\Game\Parkour;
@@ -113,7 +114,7 @@ class GameManager {
         }
     }
 
-     /**
+    /**
      * Block break event handling
      *
      * @param BlockBreakEvent $event The event
@@ -127,10 +128,23 @@ class GameManager {
             return;
         }
 
-        $this->currentGame->blockBreakEvent($event);
+        $gameType = $this->getCurrentGameType();
+
+        switch ($gameType) {
+            case self::GAME_TYPE_BUILD:
+                $this->currentGame->blockBreakEvent($event);
+                return;
+            case self::GAME_TYPE_PARKOUR:
+                // Fall through to next case
+            case self::GAME_TYPE_TREASUREHUNT:
+                if (!$event->getPlayer()->isOp()) {
+                    $event->setCancelled();
+                }
+                return;
+        }
     }
 
-     /**
+    /**
      * Block place event handling
      *
      * @param BlockPlaceEvent $event The event
@@ -166,5 +180,32 @@ class GameManager {
                 }
                 return;
         }
+   }
+
+   /**
+    * Player Interaction event handling
+    *
+    * @param PlayerInteractEvent $event The event
+    * @return type
+    */
+   public function playerInteractEvent(PlayerInteractEvent $event) {
+        $block = $event->getBlock();
+
+        if ($block == null || $this->currentGame == null || !$this->currentGame->isRunning()) {
+            return;
+        }
+
+        $gameType = $this->getCurrentGameType();
+
+        switch ($gameType) {
+            case self::GAME_TYPE_BUILD:
+                return;
+            case self::GAME_TYPE_PARKOUR:
+                // Fall through to next case
+            case self::GAME_TYPE_TREASUREHUNT:
+                $this->currentGame->playerInteractEvent($event);
+                return;
+        }
+
    }
 }

@@ -6,6 +6,7 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\Listener;
 use pocketmine\math\Vector3;
 use pocketmine\plugin\PluginBase;
@@ -259,4 +260,17 @@ class SJTTournamentTools extends PluginBase implements Listener {
     public function onBlockPlace(BlockPlaceEvent $event) {
         $this->gameManager->blockPlaceEvent($event);
     }
+
+    /**
+     * Handle PlayerInteractEvent.
+     *
+     * @param PlayerInteractEvent $event The event
+     *
+     * @priority       NORMAL
+     * @ignoreCanceled false
+     */
+    public function onPlayerInteract(PlayerInteractEvent $event) {
+        $this->gameManager->playerInteractEvent($event);
+    }
+
 }

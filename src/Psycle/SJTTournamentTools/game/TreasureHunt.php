@@ -3,8 +3,9 @@
 namespace Psycle\SJTTournamentTools\Game;
 
 use pocketmine\block\Air;
+use pocketmine\block\Block;
 use pocketmine\block\Gold;
-use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\Server;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
@@ -87,18 +88,13 @@ class TreasureHunt extends Game {
     }
 
     /**
-     * Handle a BlockBreakEvent
+     * Handle a PlayerInteractEvent
      *
-     * @param BlockBreakEvent $event The Event
+     * @param PlayerInteractEvent $event The Event
      */
-    public function blockBreakEvent(BlockBreakEvent $event) {
+    public function playerInteractEvent(PlayerInteractEvent $event) {
         $player = $event->getPlayer();
         $block = $event->getBlock();
-
-        // Whatever happens, don't allow blocks to be broken during a game
-        if (!$player->isOp()) {
-            $event->setCancelled();
-        }
 
         if ($block instanceof Gold) {
             // Handle player scoring
@@ -114,7 +110,7 @@ class TreasureHunt extends Game {
      */
     private function playerScored(Player $player, Block $block) {
         $score = 10;
-        $playerName = $player->getName;
+        $playerName = $player->getName();
         $scoreKey = $block->getX() . '-' . $block->getY() . '-' . $block->getZ();
 
         if (!array_key_exists($playerName, $this->scores)) {
