@@ -22,6 +22,9 @@ abstract class Game {
     /** @var int The start time of the game, in seconds since epoch */
     protected $startTime = 0;
 
+    /** @var int The current game mode */
+    protected $gameMode;
+
     /**
      * Constructor
      *
@@ -64,6 +67,10 @@ abstract class Game {
             return false;
         }
 
+        // Apply the game mode to all players, every tick.  Ensures we don't get players sneaking
+        // in halfway through a game with the wrong mode
+        $this->applyGameMode();
+
         $secondsToGo = $this->startTime + $this->duration * 60 - time();
 
         if ($secondsToGo <= 0) {
@@ -96,6 +103,14 @@ abstract class Game {
      * @param type $gameMode The game mode: Player::SURVIVAL | Player::CREATIVE || Player::ADVENTURE || Player::SPECTATOR
      */
     protected function setGameMode($gameMode) {
+        $this->gameMode = $gameMode;
+        $this->applyGameMode();
+    }
+
+    /**
+     * Apply the current game mode to all players
+     */
+    private function applyGameMode() {
         $plugin = SJTTournamentTools::getInstance();
 
 		foreach ($plugin->getPlayers() as $playerName) {
@@ -105,7 +120,7 @@ abstract class Game {
                 continue;
             }
 
-            $player->setGameMode($gameMode);
+            $player->setGameMode($this->gameMode);
 		}
     }
 
