@@ -74,4 +74,4 @@ MIT
 
 
 [PocketMine-MP]:http://www.pocketmine.net/
-[GitHub issues page]:issues
+[GitHub issues page]:../../issues
