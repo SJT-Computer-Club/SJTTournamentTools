@@ -1,9 +1,10 @@
 # SJTTournamentTools
 
-SJTTournamentTools is a [PocketMine-MP] plugin, using the new API, that provides a set of tools for running Minecraft tournaments, including parkour, building challenges and treasure hunts.
+SJTTournamentTools is a [PocketMine-MP] plugin, using the new API, that provides a set of tools for running Minecraft tournaments, including archery, parkour, building challenges and treasure hunts.
 
   - Provides location management, so locations can be named and stored to a configuration file
   - Provides teleportation of users to named locations
+  - Provides an 'Archery' game where players have a set time to score points firing arrows at a target
   - Provides a 'Build' game where players have a set time to build anything they like within a small area of the world
   - Provides a 'Parkour' game where players must scramble over an obstacle course and touch blocks to score
   - Provides a 'Treasure Hunt' game where players must find blocks placed in random locations throughout the world
@@ -25,6 +26,9 @@ The plugin supports the following commands:
     tu:
         description: "Teleport a player to a location"
         usage: "/tu <playername> <locationname>"
+    archery:
+        description: "Set up a game of archery"
+        usage: "/archery"
     build:
         description: "Set up a game of build"
         usage: "/build"

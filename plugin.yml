@@ -10,6 +10,9 @@ commands:
     tu:
         description: "Teleport a player to a location"
         usage: "/tu <playername> <locationname>"
+    archery:
+        description: "Set up a game of archery"
+        usage: "/archery"
     build:
         description: "Set up a game of build"
         usage: "/build"

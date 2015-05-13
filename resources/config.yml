@@ -19,15 +19,18 @@ players:
 
 # Game types and their configuration
 games:
+  Archery:
+    duration: 5
+    message: Fire straight and sure!
+  Build:
+    duration: 15
+    message: Build the best you can!
   Parkour:
     duration: 10
     message: Find and touch the Diamond Blocks!
   TreasureHunt:
     duration: 10
     message: Find and touch the Gold Blocks!
-  Build:
-    duration: 15
-    message: Build the best you can!
 
 # Teleport locations
 locations:
