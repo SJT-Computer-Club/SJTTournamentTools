@@ -6,7 +6,9 @@ use pocketmine\block\Lava;
 use pocketmine\block\TNT;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\item\Bucket;
 use Psycle\SJTTournamentTools\Game\Build;
 use Psycle\SJTTournamentTools\Game\Game;
 use Psycle\SJTTournamentTools\Game\Parkour;
@@ -190,6 +192,13 @@ class GameManager {
     */
    public function playerInteractEvent(PlayerInteractEvent $event) {
         $block = $event->getBlock();
+        $item = $event->getItem();
+
+        // No-one can use buckets (water, lava), not even ops!
+        if ($item instanceof Bucket) {
+            $event->setCancelled();
+            return;
+        }
 
         if ($block == null || $this->currentGame == null || !$this->currentGame->isRunning()) {
             return;
@@ -206,6 +215,15 @@ class GameManager {
                 $this->currentGame->playerInteractEvent($event);
                 return;
         }
+   }
 
+   /**
+    * Damage event handling
+    *
+    * @param EntityDamageEvent $event The event
+    */
+   public function entityDamageEvent(EntityDamageEvent $event) {
+       // Disallow all damage
+       $event->setCancelled();
    }
 }

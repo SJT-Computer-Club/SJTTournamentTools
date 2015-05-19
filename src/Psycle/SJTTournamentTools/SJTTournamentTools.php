@@ -6,8 +6,9 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\plugin\PluginBase;
 use Psycle\SJTTournamentTools\GameManager;
@@ -273,4 +274,15 @@ class SJTTournamentTools extends PluginBase implements Listener {
         $this->gameManager->playerInteractEvent($event);
     }
 
+    /**
+     * Handle EntityDamageEvent.
+     *
+     * @param EntityDamageEvent $event The event
+     *
+     * @priority       NORMAL
+     * @ignoreCanceled false
+     */
+    public function onHurt(EntityDamageEvent $event) {
+        $this->gameManager->entityDamageEvent($event);
+    }
 }
