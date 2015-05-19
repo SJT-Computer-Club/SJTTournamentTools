@@ -13,7 +13,7 @@ SJTTournamentTools is a [PocketMine-MP] plugin, using the new API, that provides
 
 
 ### Version
-0.1
+0.2
 
 ### Usage
 
