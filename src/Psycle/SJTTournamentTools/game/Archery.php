@@ -5,6 +5,7 @@ namespace Psycle\SJTTournamentTools\Game;
 use pocketmine\block\Block;
 use pocketmine\block\Planks;
 use pocketmine\block\Wool;
+use pocketmine\entity\Arrow;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\entity\ProjectileHitEvent;
 use pocketmine\item\Bow;
@@ -189,7 +190,26 @@ class Archery extends Game {
      * @param PlayerInteractEvent $event The Event
      */
     public function projectileHitEvent(ProjectileHitEvent $event) {
-        
+        $projectile = $event->getEntity();
+
+        if ($projectile === null || !$projectile instanceof Arrow || $projectile->shootingEntity === null) {
+            return;
+        }
+
+        $plugin = SJTTournamentTools::getInstance();
+        $location = $plugin->getLocationManager()->getLocation('Archery');
+        $level = Server::getInstance()->getDefaultLevel();
+
+        // Check whether it's in the target
+print "z: " . (int)$projectile->z;
+print " target z: " . ($location['z'] + self::TARGET_DISTANCE_FROM_PLAYERS);
+
+        $block = $level->getBlock(new Vector3($projectile->x, $projectile->y, $projectile->z));
+print "block: " . $block;
+        $player = $event->getEntity()->shootingEntity;
+print "player: " . $player->getName();
+        $distanceFromCentre = $this->getDistance($location['x'], self::TARGET_DIAMETER + self::TARGET_DISTANCE_FROM_GROUND, $projectile->x, $projectile->y);
+print "dist: " . $distanceFromCentre;
     }
 
     /**

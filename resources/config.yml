@@ -210,4 +210,8 @@ locations:
     x: 95
     y: 64
     z: 3
+  Archery:
+    x: 176
+    y: 4
+    z: 84
 

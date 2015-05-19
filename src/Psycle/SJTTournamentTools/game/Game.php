@@ -134,7 +134,7 @@ abstract class Game {
      * @param BlockBreakEvent $event The Event
      */
     public function blockBreakEvent(BlockBreakEvent $event) {
-        if (!$event->getPlayer()->isOp()) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
             $event->setCancelled();
         }
     }
@@ -145,7 +145,7 @@ abstract class Game {
      * @param BlockPlaceEvent $event The Event
      */
     public function blockPlaceEvent(BlockPlaceEvent $event) {
-        if (!$event->getPlayer()->isOp()) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
             $event->setCancelled();
         }
     }
@@ -156,7 +156,7 @@ abstract class Game {
      * @param PlayerInteractEvent $event The Event
      */
     public function playerInteractEvent(PlayerInteractEvent $event) {
-        if (!$event->getPlayer()->isOp()) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
             $event->setCancelled();
         }
     }
@@ -167,7 +167,7 @@ abstract class Game {
      * @param ProjectileHitEvent $event The Event
      */
     public function projectileHitEvent(ProjectileHitEvent $event) {
-        if (!$event->getPlayer()->isOp()) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
             $event->setCancelled();
         }
     }
