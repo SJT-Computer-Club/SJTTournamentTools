@@ -105,9 +105,8 @@ class GameManager {
     public function stopGame() {
         if ($this->currentGame !== null) {
             $this->currentGame->stop();
+            $this->currentGame->displayScores();
         }
-
-        $this->currentGame->displayScores();
 
         return true;
     }
