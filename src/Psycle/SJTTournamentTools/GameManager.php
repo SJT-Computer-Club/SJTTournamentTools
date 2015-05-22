@@ -178,7 +178,11 @@ class GameManager {
             return;
         }
 
+        // If there is no current game, disallow interaction for normal users
         if ($this->currentGame == null || !$this->currentGame->isRunning()) {
+            if (!$event->getPlayer()->isOp()) {
+                $event->setCancelled();
+            }
             return;
         }
 
