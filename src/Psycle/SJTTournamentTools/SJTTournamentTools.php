@@ -7,6 +7,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\ProjectileHitEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
@@ -155,6 +156,9 @@ class SJTTournamentTools extends PluginBase implements Listener {
             case 'tu':
                 $this->getLogger()->info($sender->getName() . ' called tu');
                 return $this->tpToLocation($sender, $args);
+//            case 'archery':
+//                $this->getLogger()->info($sender->getName() . ' called archery');
+//                return $this->gameManager->setupGame(GameManager::GAME_TYPE_ARCHERY);
             case 'build':
                 $this->getLogger()->info($sender->getName() . ' called build');
                 return $this->gameManager->setupGame(GameManager::GAME_TYPE_BUILD);
@@ -284,5 +288,17 @@ class SJTTournamentTools extends PluginBase implements Listener {
      */
     public function onHurt(EntityDamageEvent $event) {
         $this->gameManager->entityDamageEvent($event);
+    }
+
+    /**
+     * Handle ProjectileHitEvent.
+     *
+     * @param ProjectileHitEvent $event The event
+     *
+     * @priority       NORMAL
+     * @ignoreCanceled false
+     */
+    public function onProjectileHit(ProjectileHitEvent $event) {
+        $this->gameManager->projectileHitEvent($event);
     }
 }
