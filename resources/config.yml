@@ -16,195 +16,198 @@ players:
 - Player8
 - Player9
 - Player10
+- Player11
 
 # Game types and their configuration
 games:
+  Archery:
+    duration: 5
+    message: Fire straight and sure!
+  Build:
+    duration: 15
+    message: Build the best you can!
   Parkour:
     duration: 10
     message: Find and touch the Diamond Blocks!
   TreasureHunt:
     duration: 10
     message: Find and touch the Gold Blocks!
-  Build:
-    duration: 15
-    message: Build the best you can!
 
 # Teleport locations
 locations:
   Parkour:
-    x: 222
+    x: 0
     y: 64
-    z: 175
+    z: 29
   TreasureHunt:
-    x: 114
+    x: -109
     y: 64
-    z: 90
+    z: -56
   Build:
-    x: 183
+    x: -40
     y: 64
-    z: 62
-  LeisureCentre:
-    x: 96
-    y: 65
-    z: 129
+    z: -84
+  NewEntrance:
+    x: -127
+    y: 64
+    z: -16
   Gym:
-    x: 106
+    x: -117
     y: 64
-    z: 118
+    z: -28
   SportsHall:
-    x: 115
+    x: -108
     y: 64
-    z: 138
+    z: -8
   Astro:
-    x: 142
+    x: -81
     y: 64
-    z: 162
+    z: 16
   Hall:
-    x: 66
+    x: -157
     y: 64
-    z: 122
+    z: -21
   Cafeteria:
-    x: 84
+    x: -139
     y: 64
-    z: 118
+    z: -28
   Trees:
-    x: 65
+    x: -158
     y: 64
-    z: 87
+    z: -59
   Yard:
-    x: 50
+    x: -172
     y: 64
-    z: 119
+    z: -26
   Class1:
-    x: 56
-    y: 64
-    z: 124
+    x: -166
+    y: 68
+    z: -20
   Cupboard:
-    x: 56
+    x: -166
     y: 64
-    z: 133
+    z: -11
   Cupboard2:
-    x: 49
+    x: -174
     y: 64
-    z: 133
+    z: -11
   Crescent:
-    x: 40
+    x: -183
     y: 64
-    z: 140
+    z: -6
   CrescentUpstairs:
-    x: 24
+    x: -198
     y: 68
-    z: 145
-  CrescentUostairs2:
-    x: 37
+    z: 0
+  CrescentUpstairs2:
+    x: -186
     y: 68
-    z: 143
+    z: -3
   CrescentStairwell:
-    x: 24
+    x: -199
     y: 68
-    z: 149
+    z: 4
   PinkRoom:
-    x: 27
+    x: -196
     y: 65
-    z: 171
-  CrescentAgain:
-    x: 24
-    y: 64
-    z: 157
-  ScienceLobby:
-    x: 13
-    y: 64
-    z: 165
-  ScienceUpstairs:
-    x: 11
-    y: 69
-    z: 156
-  SEN:
-    x: 11
-    y: 64
-    z: 190
-  SENToilets:
-    x: 3
-    y: 64
-    z: 184
-  BehindScience:
-    x: 1
-    y: 64
-    z: 170
-  Science1:
-    x: 5
-    y: 64
-    z: 164
-  ScienceStaffRoom:
-    x: 10
-    y: 64
-    z: 161
-  MoreScience:
-    x: 7
-    y: 65
-    z: 151
-  MoreScienceUpstairs:
-    x: 7
-    y: 69
-    z: 151
-  Sheds:
-    x: 5
-    y: 64
-    z: 130
-  Chickens:
-    x: 9
-    y: 64
-    z: 98
-  RecreationArea:
-    x: 22
-    y: 65
-    z: 93
-  BackSchool:
-    x: 45
-    y: 64
-    z: 49
-  Pottery:
-    x: 52
-    y: 64
-    z: 32
-  DTYard:
-    x: 75
-    y: 64
     z: 25
-  DT2:
-    x: 67
-    y: 63
-    z: 15
-  DT1:
-    x: 80
+  CrescentAgain:
+    x: -199
     y: 64
-    z: 8
-  DT:
-    x: 91
+    z: 11
+  ScienceLobby:
+    x: -211
     y: 64
-    z: 13
-  CAD:
-    x: 90
-    y: 64
-    z: 19
-  Reception:
-    x: 101
-    y: 64
-    z: 30
-  Library:
-    x: 77
+    z: 21
+  ScienceUpstairs:
+    x: -210
+    y: 69
+    z: 12
+  SEN:
+    x: -212
     y: 64
     z: 44
+  BehindScience:
+    x: -223
+    y: 66
+    z: 22
+  Science1:
+    x: -218
+    y: 64
+    z: 18
+  ScienceStaffRoom:
+    x: -213
+    y: 64
+    z: 15
+  MoreScience:
+    x: -216
+    y: 65
+    z: 5
+  MoreScienceUpstairs:
+    x: -216
+    y: 69
+    z: 7
+  Sheds:
+    x: -218
+    y: 64
+    z: -16
+  Chickens:
+    x: -214
+    y: 64
+    z: -48
+  RecreationArea:
+    x: -201
+    y: 65
+    z: -53
+  BackSchool:
+    x: -178
+    y: 64
+    z: -97
+  Pottery:
+    x: -171
+    y: 64
+    z: -114
+  DTYard:
+    x: -148
+    y: 64
+    z: -121
+  DT2:
+    x: -156
+    y: 64
+    z: -132
+  DT1:
+    x: -144
+    y: 64
+    z: -137
+  DT:
+    x: -132
+    y: 64
+    z: -133
+  CAD:
+    x: -133
+    y: 64
+    z: -127
+  OldReception:
+    x: -123
+    y: 64
+    z: -115
+  Library:
+    x: -145
+    y: 64
+    z: -100
   SixthForm:
-    x: 117
+    x: -106
     y: 64
-    z: 65
-  Entrance:
-    x: 123
+    z: -81
+  OldEntrance:
+    x: -100
     y: 64
-    z: 25
+    z: -121
   BackRoad:
-    x: 95
+    x: -128
     y: 64
-    z: 3
-
+    z: -143
+  Archery:
+    x: 176
+    y: 4
+    z: 84

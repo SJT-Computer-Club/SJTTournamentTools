@@ -76,7 +76,7 @@ class LocationManager {
         }
 
         $location = $this->locations[$locationName];
-        $player->teleport(new Vector3($location['x'], $location['y'], $location['z']));
+        $player->teleport(new Vector3($location['x'], $location['y'] + 1, $location['z']));
 
         return true;
     }
@@ -145,7 +145,7 @@ class LocationManager {
 			} else {
 				$x = $location["x"] + 2 * ($i / 2);
 			}
-            $y = $location['y'];
+            $y = $location['y'] + 1;
 			$z = $location['z'];
 
             $player->setRotation($yaw, 0);
@@ -183,7 +183,7 @@ class LocationManager {
             }
 
 			$x = $location['x'] + ($radius * sin(deg2rad($angle * $i)));
-            $y = $location['y'];
+            $y = $location['y'] + 1;
 			$z = $location['z'] + ($radius * cos(deg2rad($angle * $i)));
 
             $player->setRotation(180 - ($angle * $i), 0);

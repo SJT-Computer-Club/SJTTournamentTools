@@ -7,6 +7,8 @@ use pocketmine\block\Quartz;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockEvent;
 use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\Event;
+use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 use pocketmine\Server;
@@ -106,6 +108,17 @@ class Build extends Game {
 				}
 			}
 		}
+
+        // Remove entities within build area
+        $entities = $level->getEntities();
+        foreach($entities as $entity) {
+            if (!$entity instanceof Player &&
+                $entity->getX() >= $location['x'] && $entity->getX() <= $location['x'] + $lengthx &&
+                $entity->getZ() >= $location['z'] && $entity->getZ() <= $location['z'] + $lengthz) {
+
+                $entity->kill();
+            }
+        }
     }
 
     /**
@@ -127,6 +140,16 @@ class Build extends Game {
     }
 
     /**
+     * Player Interaction event handling
+     *
+     * @param PlayerInteractEvent $event The event
+     * @return type
+     */
+    public function playerInteractEvent(PlayerInteractEvent $event) {
+        $this->checkBlockEvent($event);
+    }
+
+    /**
      * Display the scores for the game - in this case just show a message about judging
      */
     public function displayScores() {
@@ -140,7 +163,7 @@ class Build extends Game {
      * @param BlockEvent $event The Event
      * @return type
      */
-    private function checkBlockEvent(BlockEvent $event) {
+    private function checkBlockEvent(Event $event) {
         $player = $event->getPlayer();
         $block = $event->getBlock();
         $plugin = SJTTournamentTools::getInstance();

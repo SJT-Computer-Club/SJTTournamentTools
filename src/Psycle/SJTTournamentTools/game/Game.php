@@ -2,6 +2,10 @@
 
 namespace Psycle\SJTTournamentTools\Game;
 
+use pocketmine\event\block\BlockBreakEvent;
+use pocketmine\event\block\BlockPlaceEvent;
+use pocketmine\event\entity\ProjectileHitEvent;
+use pocketmine\event\player\PlayerInteractEvent;
 use Psycle\SJTTournamentTools\SJTTournamentTools;
 
 /**
@@ -122,6 +126,50 @@ abstract class Game {
 
             $player->setGameMode($this->gameMode);
 		}
+    }
+
+    /**
+     * Handle a BlockBreakEvent. Default is to cancel the event if the player isn't an op (subclasses should implement their own if needed).
+     *
+     * @param BlockBreakEvent $event The Event
+     */
+    public function blockBreakEvent(BlockBreakEvent $event) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
+            $event->setCancelled();
+        }
+    }
+
+    /**
+     * Handle a BlockPlaceEvent. Default is to cancel the event if the player isn't an op (subclasses should implement their own if needed).
+     *
+     * @param BlockPlaceEvent $event The Event
+     */
+    public function blockPlaceEvent(BlockPlaceEvent $event) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
+            $event->setCancelled();
+        }
+    }
+
+    /**
+     * Handle a PlayerInteractEvent. Default is to cancel the event if the player isn't an op (subclasses should implement their own if needed).
+     *
+     * @param PlayerInteractEvent $event The Event
+     */
+    public function playerInteractEvent(PlayerInteractEvent $event) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
+            $event->setCancelled();
+        }
+    }
+
+    /**
+     * Handle a ProjectileHitEvent. Default is to cancel the event if the player isn't an op (subclasses should implement their own if needed).
+     *
+     * @param ProjectileHitEvent $event The Event
+     */
+    public function projectileHitEvent(ProjectileHitEvent $event) {
+        if ($event->getPlayer() == null || !$event->getPlayer()->isOp()) {
+            $event->setCancelled();
+        }
     }
 
     abstract function getStatus();

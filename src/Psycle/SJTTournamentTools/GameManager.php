@@ -7,8 +7,10 @@ use pocketmine\block\TNT;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\ProjectileHitEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Bucket;
+use Psycle\SJTTournamentTools\Game\Archery;
 use Psycle\SJTTournamentTools\Game\Build;
 use Psycle\SJTTournamentTools\Game\Game;
 use Psycle\SJTTournamentTools\Game\Parkour;
@@ -23,7 +25,8 @@ use ReflectionClass;
 class GameManager {
 
     /** Types of game */
-    const GAME_TYPE_BUILD = 'Build',
+    const GAME_TYPE_ARCHERY = 'Archery',
+          GAME_TYPE_BUILD = 'Build',
           GAME_TYPE_PARKOUR = 'Parkour',
           GAME_TYPE_TREASUREHUNT = 'TreasureHunt';
 
@@ -54,6 +57,9 @@ class GameManager {
         }
 
         switch ($gameType) {
+            case self::GAME_TYPE_ARCHERY:
+                $this->currentGame = new Archery($this->config['Archery']);
+                break;
             case self::GAME_TYPE_BUILD:
                 $this->currentGame = new Build($this->config['Build']);
                 break;
@@ -99,13 +105,11 @@ class GameManager {
     public function stopGame() {
         if ($this->currentGame !== null) {
             $this->currentGame->stop();
+            $this->currentGame->displayScores();
         }
-
-        $this->currentGame->displayScores();
 
         return true;
     }
-
 
     /**
      * Tick the current game. Called every second.
@@ -130,20 +134,7 @@ class GameManager {
             return;
         }
 
-        $gameType = $this->getCurrentGameType();
-
-        switch ($gameType) {
-            case self::GAME_TYPE_BUILD:
-                $this->currentGame->blockBreakEvent($event);
-                return;
-            case self::GAME_TYPE_PARKOUR:
-                // Fall through to next case
-            case self::GAME_TYPE_TREASUREHUNT:
-                if (!$event->getPlayer()->isOp()) {
-                    $event->setCancelled();
-                }
-                return;
-        }
+        $this->currentGame->blockBreakEvent($event);
     }
 
     /**
@@ -168,30 +159,16 @@ class GameManager {
             return;
         }
 
-        $gameType = $this->getCurrentGameType();
+        $this->currentGame->blockPlaceEvent($event);
+    }
 
-        switch ($gameType) {
-            case self::GAME_TYPE_BUILD:
-                $this->currentGame->blockPlaceEvent($event);
-                return;
-            case self::GAME_TYPE_PARKOUR:
-                // Fall through to next case
-            case self::GAME_TYPE_TREASUREHUNT:
-                if (!$event->getPlayer()->isOp()) {
-                    $event->setCancelled();
-                }
-                return;
-        }
-   }
-
-   /**
-    * Player Interaction event handling
-    *
-    * @param PlayerInteractEvent $event The event
-    * @return type
-    */
-   public function playerInteractEvent(PlayerInteractEvent $event) {
-        $block = $event->getBlock();
+    /**
+     * Player Interaction event handling
+     *
+     * @param PlayerInteractEvent $event The event
+     * @return type
+     */
+    public function playerInteractEvent(PlayerInteractEvent $event) {
         $item = $event->getItem();
 
         // No-one can use buckets (water, lava), not even ops!
@@ -200,30 +177,38 @@ class GameManager {
             return;
         }
 
-        if ($block == null || $this->currentGame == null || !$this->currentGame->isRunning()) {
+        // If there is no current game, disallow interaction for normal users
+        if ($this->currentGame == null || !$this->currentGame->isRunning()) {
+            if (!$event->getPlayer()->isOp()) {
+                $event->setCancelled();
+            }
             return;
         }
 
-        $gameType = $this->getCurrentGameType();
+        $this->currentGame->playerInteractEvent($event);
+    }
 
-        switch ($gameType) {
-            case self::GAME_TYPE_BUILD:
-                return;
-            case self::GAME_TYPE_PARKOUR:
-                // Fall through to next case
-            case self::GAME_TYPE_TREASUREHUNT:
-                $this->currentGame->playerInteractEvent($event);
-                return;
+    /**
+     * Damage event handling
+     *
+     * @param EntityDamageEvent $event The event
+     */
+    public function entityDamageEvent(EntityDamageEvent $event) {
+        // Disallow all damage
+        $event->setCancelled();
+    }
+
+    /**
+     * Projectile Hit event handling
+     *
+     * @param PlayerInteractEvent $event The event
+     * @return type
+     */
+    public function projectileHitEvent(ProjectileHitEvent $event) {
+        if ($this->currentGame == null || !$this->currentGame->isRunning()) {
+            return;
         }
-   }
 
-   /**
-    * Damage event handling
-    *
-    * @param EntityDamageEvent $event The event
-    */
-   public function entityDamageEvent(EntityDamageEvent $event) {
-       // Disallow all damage
-       $event->setCancelled();
-   }
+        $this->currentGame->projectileHitEvent($event);
+    }
 }
