@@ -108,6 +108,17 @@ class Build extends Game {
 				}
 			}
 		}
+
+        // Remove entities within build area
+        $entities = $level->getEntities();
+        foreach($entities as $entity) {
+            if (!$entity instanceof Player &&
+                $entity->getX() >= $location['x'] && $entity->getX() <= $location['x'] + $lengthx &&
+                $entity->getZ() >= $location['z'] && $entity->getZ() <= $location['z'] + $lengthz) {
+
+                $entity->kill();
+            }
+        }
     }
 
     /**
