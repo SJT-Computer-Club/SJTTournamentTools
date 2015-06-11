@@ -38,7 +38,7 @@ class EveryMinuteTask extends PluginTask {
         $level = Server::getInstance()->getDefaultLevel();
 
         // Keep it day all the time
-        $level->setTime(Level::TIME_DAY);
+        $level->setTime(6000);
 
         // Reset spawn point for all players
         $plugin = SJTTournamentTools::getInstance();
